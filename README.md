@@ -16,5 +16,6 @@ Vtuber teaching cs content, https://www.youtube.com/@sandantesg
 
 # Hardware required
 Mic - Fifine k669
+
 Pen tablet - One by Wacom CTL672
 
