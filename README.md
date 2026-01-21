@@ -15,7 +15,7 @@ Vtuber teaching cs content, https://www.youtube.com/@sandantesg
 6) Microsoft clipchamp (use if barely any lag in vChanger output) / Davinici resolve (use if avg lag) / Lossless cut (use if severe lag in voice changer output) - for editing recording
 
 # Hardware required
-Mic - Fifine k669
+1) Mic - Fifine k669
 
-Pen tablet - One by Wacom CTL672
+2) Pen tablet - One by Wacom CTL672
 
