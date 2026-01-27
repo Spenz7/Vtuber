@@ -1,0 +1,28 @@
+graph TD
+    subgraph "Local Machine"
+        A[User Browser<br/>Voice Changer UI]
+        B[Microphone/Speaker]
+    end
+    
+    subgraph "Internet"
+        N[Ngrok Tunnel<br/>Reverse Proxy]
+    end
+    
+    subgraph "Kaggle Cloud"
+        subgraph "Kaggle Notebook"
+            K[Python Kernel]
+            V[Voice Changer Server<br/>Port: 18888]
+            M[AI Models]
+        end
+        
+        G[GPU Runtime]
+        F[Kaggle Filesystem]
+    end
+    
+    A -- "WebSocket<br/>HTTPS" --> N
+    N -- "Tunnel Connection" --> V
+    V -- "Load Models" --> M
+    V -- "GPU Inference" --> G
+    V -- "File Access" --> F
+    K -- "Start/Stop Control" --> V
+    B -- "Audio I/O" --> A

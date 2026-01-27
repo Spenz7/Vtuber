@@ -1,0 +1,41 @@
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Ngrok
+    participant KaggleServer
+    participant VoiceChanger
+    participant GPU
+    
+    Note over User,KaggleServer: Phase 1: Setup
+    User->>KaggleServer: Run Notebook Cells
+    KaggleServer->>KaggleServer: Download Dependencies
+    KaggleServer->>KaggleServer: Install Voice Changer
+    User->>KaggleServer: Provide Ngrok Token
+    KaggleServer->>Ngrok: Authenticate & Setup
+    
+    Note over User,KaggleServer: Phase 2: Server Start
+    KaggleServer->>Ngrok: Create Tunnel (port 18888)
+    Ngrok-->>KaggleServer: Return Public URL
+    KaggleServer->>VoiceChanger: Start Server Process
+    VoiceChanger->>GPU: Load AI Models (once)
+    VoiceChanger-->>KaggleServer: Server Ready
+    KaggleServer->>User: Display Ngrok URL
+    
+    Note over User,VoiceChanger: Phase 3: Real-time Processing
+    User->>Browser: Open Ngrok URL
+    Browser->>Ngrok: Connect via WebSocket
+    Ngrok->>VoiceChanger: Forward Connection
+    
+    Note over VoiceChanger,GPU: Model loaded once,<br>audio processed continuously
+    loop Audio Processing Loop
+        Browser->>VoiceChanger: Send Audio Chunks
+        VoiceChanger->>GPU: Compute Model Inference
+        GPU-->>VoiceChanger: Return Converted Audio
+        VoiceChanger-->>Browser: Send Processed Audio
+        Browser->>User: Play Converted Voice
+    end
+    
+    Note over User,VoiceChanger: Phase 4: Shutdown
+    User->>KaggleServer: Stop Notebook
+    KaggleServer->>Ngrok: Close Tunnel
+    KaggleServer->>VoiceChanger: Stop Server
