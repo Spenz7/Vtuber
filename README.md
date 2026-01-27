@@ -1,11 +1,11 @@
 # Vtuber
 Vtuber teaching cs content, https://www.youtube.com/@sandantesg
 
+Note: Kaggle allows gpu usage of 30hrs/wk which isn't an issue rn
+
 Issue: Currently facing ngrok 1GB bandwidth limit thus I can't access the vc server that long (around 24hrs b4 hitting the 1GB limit)
 
-Solution: Replace ngrok with Cloudflare tunnels (working on this)
-
-Note: Kaggle allows gpu usage of 30hrs/wk which isn't an issue rn
+Solution: Replace ngrok with Cloudflare tunnels (working on this), see Cloudflare folder
 
 # Software required
 1) Vtube studio (prefer this) / Nizima live - live 2D face tracker
