@@ -1,0 +1,13 @@
+The limitation isn't Kaggle or the GPU; it's the way Cloudflare Tunnels work in combination with Kaggle's ephemeral environment:
+
+-   **Full Cloudflare Tunnel (unlimited bandwidth) requires authentication and persistent config files**. Kaggle notebooks **cannot** reliably store or use those credentials across sessions.
+
+-   **Temporary tunnels via `trycloudflare.com`** can work without auth, but they are ephemeral and fragile. They won't guarantee continuous long-term use, and they don't bypass Kaggle session timeouts.
+
+-   **Ngrok free tier** works because it provides temporary tunnels without persistent auth. That's why the original Kaggle w-okada setup functions, but it's limited to **1 GB of data transfer per month**.
+
+So if your goal is to use the voice changer for longer than 1 GB of data, **Cloudflare tunnels on Kaggle will not solve the problem** --- at least not reliably. The only real options are:
+
+1.  Upgrade Ngrok to a paid plan with more bandwidth.
+
+2.  Run the voice changer on your own server or VPS, then use Cloudflare (or any tunnel) with full control.
