@@ -1,0 +1,81 @@
+1. Set up Linux environment
+
+Installed WSL2 on Windows to run a Linux kernel.
+
+Installed Ubuntu from the Microsoft Store as the Linux distribution.
+
+Confirmed Ubuntu was running (wsl -l -v).
+
+2. Installed Docker
+
+Uninstalled conflicting packages (if any).
+
+Set up Docker using Docker’s official apt repository in Ubuntu.
+
+Started the Docker service and verified it with:
+
+sudo docker ps
+
+
+Ensured USE_GPU=off if you don’t have a GPU.
+
+3. Cloned the VC Trainer & Player repository
+
+Initially cloned a stable version (ver_1.1) but later switched to main branch for latest updates:
+
+git clone https://github.com/w-okada/voice-changer.git
+cd voice-changer
+
+
+Removed old version if it existed (rm -rf voice-changer) to avoid conflicts.
+
+4. Selected models
+
+Needed matching model files: .pth (weights) + .json (config) — same base name.
+
+Optional: .onnx for ONNX framework.
+
+Set the framework (PyTorch) and device (CPU if no GPU) in the GUI.
+
+5. Checked audio setup
+
+Tried arecord -l to detect input devices, but WSL2 doesn’t natively pass through Windows microphones, so live input didn’t work.
+
+Alternatives:
+
+Use Windows Docker to access mic directly.
+
+Feed pre-recorded WAV files instead of live input.
+
+6. Ran VC Trainer & Player
+
+Started the server via:
+
+USE_GPU=off bash start2.sh MMVC
+
+
+Verified server was running and Docker containers were active (docker ps).
+
+Encountered errors when .json config was missing (AttributeError: 'hps') → fixed by selecting the correct config file.
+
+7. Observed limitations
+
+Without GPU: slower conversion (CPU mode).
+
+Without proper audio passthrough in WSL2: vol(rms) stayed 0 → live mic input didn’t work.
+
+VC conversion itself works only if model + config are properly loaded and input audio is available.
+
+So basically the pipeline was:
+
+Windows → WSL2 → Ubuntu
+
+Ubuntu → Docker installed
+
+Docker → VC Trainer & Player container runs
+
+Load model (.pth) + config (.json)
+
+Feed audio (live or pre-recorded)
+
+Converted audio outputs (real-time if mic works, otherwise from file)
